@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<!DOCTYPE fontconfig SYSTEM "fonts.dtd">
+<fontconfig>
+
+    <match target="font">
+        <edit mode="assign" name="rgba">
+            <const>rgb</const>
+        </edit>
+    </match>
+    <match target="font">
+        <edit mode="assign" name="hinting">
+            <bool>false</bool>
+        </edit>
+    </match>
+    <match target="font">
+        <edit mode="assign" name="hintstyle">
+            <const>hintslight</const>
+        </edit>
+    </match>
+    <match target="font">
+        <edit mode="assign" name="antialias">
+            <bool>true</bool>
+        </edit>
+    </match>
+    <match target="font">
+        <edit mode="assign" name="lcdfilter">
+            <const>lcddefault</const>
+   		</edit>
+  	</match>
+	<dir>~/.fonts</dir>
+
+
+
+
+
+    <!--Change monospace font globally-->
+    <match target="pattern">
+        <test name="family" qual="any">
+            <string>monospace</string>
+        </test>
+        <edit binding="strong" mode="prepend" name="family">
+            <string>SF Mono</string>
+        </edit>
+        <edit binding="strong" mode="prepend" name="weight">
+            <const>Semibold</const>
+        </edit>
+    </match>
+
+    <!--Change serif font globally-->
+    <alias>
+        <family>serif</family>
+        <prefer>
+            <family>SF Pro</family>
+        </prefer>
+    </alias>
+
+    <!--Change sans-serif font globally-->
+    <alias>
+        <family>sans-serif</family>
+        <prefer>
+            <family>SF Pro</family>
+        </prefer>
+    </alias>
+
+</fontconfig>
+
