@@ -82,8 +82,7 @@ $HOME/.fehbg
 
 # Launch bar
 pkill polybar
-polybar -c "$HOME/.config/polybar/config.ini" minimal &
-polybar -c "$HOME/.config/polybar/config.ini" left &
+polybar -c "$HOME/.config/polybar/config.ini" &
 
 # Bluelight filter
 # pgrep redshift || redshift -l 37:30 &
@@ -112,17 +111,15 @@ bspc rule -a music						 rectangle=800x450+0+0 state=floating layer=above center
 # #                            GENERAL CONFIGURATION                           #
 # ##############################################################################
 
-bspc config left_padding 0
 bspc config border_width 2
-printf "%s\n" {left,right,bottom}_padding | xargs -I{} bspc config {} 8
-#printf "%s\n" {left,right,bottom}_monocle_padding | xargs -I{} bspc config {} -8
+printf "%s\n" {left,right,bottom,top}_padding | xargs -I{} bspc config {} 8
+printf "%s\n" {left,right,bottom}_monocle_padding | xargs -I{} bspc config {} -8
 bspc config window_gap 7
 bspc config split_ratio 0.50
 
 bspc config single_monocle true
 bspc config borderless_monocle true
 bspc config gapless_monocle true
-bspc config paddingless_monocle true
 bspc config focus_follows_pointer false
 
 bspc config normal_border_color "$X0"

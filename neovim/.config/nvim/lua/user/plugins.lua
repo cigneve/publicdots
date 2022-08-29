@@ -59,9 +59,9 @@ return packer.startup(function(use)
 	use({ "goolord/alpha-nvim", config = [[require('config.alpha')]] })
 
 	-- Colorschemes
-	use({ "folke/tokyonight.nvim" })
-	use({ "lunarvim/darkplus.nvim" })
+	use({ "rose-pine/neovim" })
 	use({ "sainnhe/gruvbox-material" })
+	use({ "rebelot/kanagawa.nvim" })
 
 	-- Completion
 	use({
@@ -130,6 +130,7 @@ return packer.startup(function(use)
 		"nvim-treesitter/nvim-treesitter",
 		config = [[require('config.treesitter')]],
 	})
+	use({ "nvim-treesitter/nvim-treesitter-textobjects" })
 
 	-- Git
 	use({ "lewis6991/gitsigns.nvim", config = [[require('config.gitsigns')]] })
@@ -158,6 +159,13 @@ return packer.startup(function(use)
 	use("barreiroleo/ltex_extra.nvim")
 	-- Profiling
 	use({ "dstein64/vim-startuptime", cmd = "StartupTime", config = [[vim.g.startuptime_tries = 10]] })
+
+	-- EWW support
+	use("elkowar/yuck.vim")
+
+	-- Colorizer
+	use({ "norcalli/nvim-colorizer.lua", config = [[require('colorizer').setup()]] })
+
 	-- Automatically set up your configuration after cloning packer.nvim
 	-- Put this at the end after all plugins
 	if PACKER_BOOTSTRAP then

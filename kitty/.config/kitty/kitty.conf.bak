@@ -1,0 +1,101 @@
+# Colors
+# Let the theme override these
+
+#include ./kanagawa
+# Fonts
+font_family     monospace
+italic_font		  auto
+bold_font        auto
+bold_italic_font auto
+font_size        13
+
+adjust_line_height 0
+adjust_column_width 0
+box_drawing_scale 0.001, 1, 1.5, 2
+
+# Cursor
+cursor_shape     underline
+cursor_blink_interval     0
+cursor_stop_blinking_after 15.0
+
+# Scrollback
+scrollback_lines 10000
+scrollback_pager less
+wheel_scroll_multiplier 5.0
+
+# URLs
+url_style double
+open_url_with firefox
+copy_on_select yes
+
+# Selection
+select_by_word_characters :@-./_~?&=%+#
+
+# Mouse
+click_interval 0.5
+mouse_hide_wait 0
+focus_follows_mouse no
+
+# Performance
+repaint_delay    20
+input_delay 2
+sync_to_monitor no
+
+# Bell
+visual_bell_duration 0.0
+enable_audio_bell no
+
+# Window
+remember_window_size   yes
+initial_window_width   700
+window_border_width 0
+window_margin_width 0
+window_padding_width 0
+#background_opacity 0.95
+# Çöp
+#window_border_width 4
+#window_margin_width 3
+#window_padding_width 4
+
+# Layouts
+enabled_layouts splits,grid,tall,fat
+
+# Symbols
+symbol_map U+f101-U+f208 monospace
+
+# Shell
+# shell .
+close_on_child_death no
+allow_remote_control yes
+term xterm-256color
+
+# Keys
+map alt+left            neighboring_window left
+map alt+right           neighboring_window right
+map alt+up              neighboring_window up
+map alt+down            neighboring_window down
+map alt+F5                  launch --location=hsplit
+map alt+F6                  launch --location=vsplit
+map alt+F7                  layout_action rotate
+
+map ctrl+shift+t			new_tab_with_cwd
+
+#map shift+up            move_window up
+#map shift+left          move_window left
+#map shift+right         move_window right
+#map shift+down          move_window down
+
+map ctrl+alt+left resize_window narrower
+map ctrl+alt+right resize_window wider
+map ctrl+alt+up resize_window taller
+map ctrl+alt+down resize_window shorter 3
+
+
+
+# BEGIN_KITTY_THEME
+# Rosé Pine
+include current-theme.conf
+# END_KITTY_THEME
+
+
+map ctrl+f4 detach_tab
