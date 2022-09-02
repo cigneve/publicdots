@@ -96,11 +96,13 @@ super + ctrl + {1-9}
 	bspc node -o 0.{1-9}
 
 # Fullscreen
+super + shift+ f
+		bspc node -t '~'fullscreen
 super + f
 		bspc desktop -l next
 
 # Toggle beetwen floating & tiled
-super + space
+super + ctrl + space
     bspc node -t "~"{floating,tiled}
 
 # Pseudo Tiled & tiled mode

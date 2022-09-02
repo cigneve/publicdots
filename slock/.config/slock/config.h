@@ -28,9 +28,7 @@ static const char *message = "\n\n\n\n\n\n\n\n\n\n\n\npassword";
 static const char *text_color = "#d4be98";
 
 /* text size (must be a valid size) */
-static const char *font_name =
-    "-misc-dejavu sans "
-    "condensed-bold-o-semicondensed--0-0-0-0-p-0-adobe-standard";
+static const char *font_name = "-misc-overpass-medium-i-normal--0-0-0-0-p-0-adobe-standard";
 #endif // MESSAGE_PATCH | COLOR_MESSAGE_PATCH
 
 #if BACKGROUND_IMAGE_PATCH
@@ -40,10 +38,9 @@ static const char *background_image = "";
 
 #if DWM_LOGO_PATCH
 /* insert grid pattern with scale 1:1, the size can be changed with logosize */
-static const int logosize = 40;
-static const int logow =
-    16; /* grid width and height for right center alignment*/
-static const int logoh = 16;
+static const int logosize = 25;
+static const int logow = 23; /* grid width and height for right center alignment*/
+static const int logoh = 12;
 
 // static XRectangle rectangles[] = {
 //    /* x    y   w   h */
@@ -57,28 +54,33 @@ static const int logoh = 16;
 //    { 9,    4,  1,  2 },
 //    { 11,   4,  1,  2 },
 // };
-static XRectangle rectangles[] = {
-    /* x    y   w   h */
-    {0, 1, 1, 3},   {0, 5, 1, 3},   {0, 10, 1, 2},  {0, 13, 1, 2},
-    {1, 0, 1, 1},   {1, 4, 1, 1},   {1, 8, 1, 2},   {1, 12, 1, 1},
-    {1, 14, 1, 1},  {2, 0, 1, 1},   {2, 2, 1, 1},   {2, 4, 1, 1},
-    {2, 6, 1, 1},   {2, 8, 1, 3},   {2, 14, 1, 1},  {3, 0, 1, 1},
-    {3, 2, 1, 1},   {3, 4, 1, 1},   {3, 6, 1, 1},   {3, 8, 1, 1},
-    {3, 14, 1, 2},  {4, 0, 1, 1},   {4, 4, 1, 1},   {4, 6, 1, 1},
-    {4, 8, 1, 1},   {4, 11, 1, 3},  {4, 15, 1, 1},  {5, 1, 1, 3},
-    {5, 6, 1, 1},   {5, 8, 1, 1},   {5, 15, 1, 1},  {6, 1, 1, 1},
-    {6, 6, 1, 1},   {6, 8, 1, 1},   {6, 11, 1, 4},  {7, 1, 1, 1},
-    {7, 6, 1, 1},   {7, 8, 1, 1},   {7, 13, 1, 1},  {8, 1, 1, 1},
-    {8, 6, 1, 1},   {8, 8, 1, 1},   {8, 13, 1, 1},  {9, 1, 1, 1},
-    {9, 6, 1, 1},   {9, 8, 1, 1},   {9, 11, 1, 4},  {10, 1, 1, 3},
-    {10, 6, 1, 1},  {10, 8, 1, 1},  {10, 15, 1, 1}, {11, 0, 1, 1},
-    {11, 4, 1, 1},  {11, 6, 1, 1},  {11, 8, 1, 1},  {11, 11, 1, 3},
-    {11, 15, 1, 1}, {12, 0, 1, 1},  {12, 2, 1, 1},  {12, 4, 1, 1},
-    {12, 6, 1, 1},  {12, 8, 1, 1},  {12, 14, 1, 2}, {13, 0, 1, 1},
-    {13, 2, 1, 1},  {13, 4, 1, 1},  {13, 6, 1, 1},  {13, 8, 1, 3},
-    {13, 14, 1, 1}, {14, 0, 1, 1},  {14, 4, 1, 1},  {14, 8, 1, 2},
-    {14, 12, 1, 1}, {14, 14, 1, 1}, {15, 1, 1, 3},  {15, 5, 1, 3},
-    {15, 10, 1, 2}, {15, 13, 1, 2}};
+static XRectangle rectangles[24] = {
+	/* x	y	w	h */
+	{ 1, 0, 1, 10 },
+	{ 2, 0, 1, 1 },
+	{ 2, 4, 1, 1 },
+	{ 3, 1, 1, 1 },
+	{ 3, 3, 1, 1 },
+	{ 4, 2, 1, 1 },
+	{ 5, 1, 1, 1 },
+	{ 5, 3, 1, 1 },
+	{ 6, 0, 1, 1 },
+	{ 6, 4, 1, 1 },
+	{ 7, 0, 1, 10 },
+	{ 9, 0, 1, 10},
+	{ 10, 0, 1, 1 },
+	{ 11, 1, 1, 1 },
+	{ 12, 2, 1, 1 },
+	{ 13, 1, 1, 1 },
+	{ 14, 0, 1, 1 },
+	{ 15, 0, 1, 10 },
+	{ 17, 0, 1, 10 },
+	{ 18, 0, 1, 1 },
+	{ 19, 1, 1, 1},
+	{ 20, 2, 1, 1 },
+	{ 21, 3, 1, 7 },
+	{ 0, 11, 23, 1 },
+};
 #endif // DWM_LOGO_PATCH
 
 #if XRESOURCES_PATCH

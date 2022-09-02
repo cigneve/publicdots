@@ -35,7 +35,7 @@
  * The background image patch takes precedence over this patch.
  * https://tools.suckless.org/slock/patches/blur-pixelated-screen/
  */
-#define BLUR_PIXELATED_SCREEN_PATCH 1
+#define BLUR_PIXELATED_SCREEN_PATCH 0
 
 /* This patch introduces an additional color to indicate the state of Caps Lock.
  * https://tools.suckless.org/slock/patches/capscolor/
@@ -56,7 +56,7 @@
  *
  * https://tools.suckless.org/slock/patches/colormessage/
  */
-#define COLOR_MESSAGE_PATCH 1
+#define COLOR_MESSAGE_PATCH 0
 
 /* Adds an additional configuration parameter, controlkeyclear. When set to 1, slock will no
  * longer change to the failure color if a control key is pressed while the buffer is empty.
@@ -102,7 +102,7 @@
  * configuration in config.mk. Look for and uncomment the XINERAMA placeholder.
  * https://tools.suckless.org/slock/patches/message/
  */
-#define MESSAGE_PATCH 1
+#define MESSAGE_PATCH 0
 
 /* Replaces shadow support with PAM authentication support.
  * Change variable pam_service in config.def.h to the corresponding PAM service.

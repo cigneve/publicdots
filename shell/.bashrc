@@ -17,8 +17,6 @@ YELLOW="\[\e[33m\]"
 RESET="\[\e[39m\]"
 #PS1='[\u@\h \W]\$ '
 PS1="$RED[\u@\h $GREEN\w$RED]$RESET\$ "
-[ -n "$NNNLVL" ] && PS1="N$NNNLVL $PS1"
-
 
 . /usr/share/fzf/key-bindings.bash
 . /usr/share/fzf/completion.bash

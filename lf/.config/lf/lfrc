@@ -18,71 +18,69 @@ set icons
 set period 1
 set drawbox
 set ratios 1:1
+set previewer '~/.config/lf/scope'
 
 # cmds/functions
 cmd open ${{
-    case $(file --mime-type "$(readlink -f $f)" -b) in
-	application/vnd.openxmlformats-officedocument.spreadsheetml.sheet) localc $fx ;;
-	image/vnd.djvu|application/pdf|application/octet-stream|application/postscript) setsid -f zathura $fx >/dev/null 2>&1 ;;
-        text/*|application/json|inode/x-empty) $EDITOR $fx;;
-	image/x-xcf) setsid -f gimp $f >/dev/null 2>&1 ;;
-	image/svg+xml) display -- $f ;;
-	image/*) rotdir $f | grep -i "\.\(png\|jpg\|jpeg\|gif\|webp\|tif\|ico\)\(_large\)*$" |
-		setsid -f sxiv -aio 2>/dev/null | while read -r file; do
-			[ -z "$file" ] && continue
-			lf -remote "send select \"$file\""
-			lf -remote "send toggle"
-		done &
-		;;
-	audio/*) mpv --audio-display=no $f ;;
-	video/*) setsid -f mpv $f -quiet >/dev/null 2>&1 ;;
-	application/pdf|application/vnd*|application/epub*) setsid -f zathura $fx >/dev/null 2>&1 ;;
-	application/pgp-encrypted) $EDITOR $fx ;;
+    case $(file --mime-type "$f" -bL) in
+        text/*|application/json) $EDITOR "$f";;
+        *) setsid -f xdg-open "$f" >/dev/null 2>&1;;
+    esac
 }}
 
-cmd mkdir $mkdir -p "$(echo $* | tr ' ' '\ ')"
+#cmd mkdir $mkdir -p "$(echo $* | tr ' ' '\ ')"
+cmd mkdir %{{
+  [[ "$#" -lt 0 ]] || mkdir -p "$(echo $* | tr ' ' '\ ')" && exit
+  printf "Directory Name: "
+  read ans
+  mkdir -p "$(echo $ans | tr ' ' '\ ')"
+}}
 
+cmd mkfile %{{
+  printf "File Name: "
+  read ans
+  $EDITOR $ans
+}}
+
+# Archive bindings
 cmd extract ${{
-	clear; tput cup $(($(tput lines)/3)); tput bold
-	set -f
-	printf "%s\n\t" "$fx"
-	printf "extract?[y/N]"
-	read ans
-	[ $ans = "y" ] && aunpack $fx
+  case "$f" in
+      *.zip) unzip "$f" >/dev/null ;;
+      *.tar.gz) tar -xzvf "$f" >/dev/null ;;
+      *.tar.bz2) tar -xjvf "$f" >/dev/null ;;
+      *.tar) tar -xvf "$f" >/dev/null ;;
+      *) echo "Unsupported format" ;;
+  esac
 }}
 
-#cmd delete ${{
-#	clear; tput cup $(($(tput lines)/3)); tput bold
-#	set -f
-#	printf "%s\n\t" "$fx"
-#	printf "delete?[y/N]"
-#	read ans
-#	[ $ans = "y" ] && rm -rf -- $fx
-#}}
+#Ripgrep
+cmd fzf_search ${{
+    res="$( \
+        RG_PREFIX="rg --column --line-number --no-heading --color=always \
+            --smart-case "
+        FZF_DEFAULT_COMMAND="$RG_PREFIX ''" \
+            fzf --bind "change:reload:$RG_PREFIX {q} || true" \
+            --ansi --layout=reverse --header 'Search in files' \
+            | cut -d':' -f1
+    )"
+    [ ! -z "$res" ] && lf -remote "send $id select \"$res\""
+}}
+map gs :fzf_search
 
-cmd moveto ${{
-	clear; tput cup $(($(tput lines)/3)); tput bold
-	set -f
-	clear; echo "Move to where?"
-	dest="$(sed -e 's/\s*#.*//' -e '/^$/d' -e 's/^\S*\s*//' ${XDG_CONFIG_HOME:-$HOME/.config}/shell/bm-dirs | fzf | sed 's|~|$HOME|')" &&
-	for x in $fx; do
-		eval mv -iv \"$x\" \"$dest\"
-	done &&
-	notify-send "🚚 File(s) moved." "File(s) moved to $dest."
+#Change window title
+cmd on-cd &{{
+    # '&' commands run silently in background (which is what we want here),
+    # but are not connected to stdout.
+    # To make sure our escape sequence still reaches stdout we pipe it to /dev/tty
+    printf "\033]0; lf:$(pwd | sed "s|$HOME|~|")\007" > /dev/tty
 }}
 
-cmd copyto ${{
-	clear; tput cup $(($(tput lines)/3)); tput bold
-	set -f
-	clear; echo "Copy to where?"
-	dest="$(sed -e 's/\s*#.*//' -e '/^$/d' -e 's/^\S*\s*//' ${XDG_CONFIG_HOME:-$HOME/.config}/shell/bm-dirs | fzf | sed 's|~|$HOME|')" &&
-	for x in $fx; do
-		eval cp -ivr \"$x\" \"$dest\"
-	done &&
-	notify-send "📋 File(s) copied." "File(s) copies to $dest."
-}}
+# also run at startup
+on-cd
 
-cmd setbg "$1"
+
+
+# vidir
 cmd bulkrename $vidir
 
 # Drag and drop
@@ -92,3 +90,11 @@ cmd dragon %dragon-drop -a -x $fx
 cmap <up> cmd-history-prev
 cmap <down> cmd-history-next
 map . set hidden!
+map r rename
+# Movement
+map gp. cd ~/Pictures
+map gD cd ~/Downloads
+
+map gc cd ~/.config
+map gl cd ~/.local
+map gE cd /etc
