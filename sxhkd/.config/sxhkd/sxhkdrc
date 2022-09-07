@@ -57,6 +57,9 @@ ctrl + Print
 ctrl + alt + Print
 	takeshot --area
 
+ctrl + alt + m
+  dunstctl action
+
 # Manage brightness
 XF86MonBrightness{Up,Down}
     brightness {up,down}

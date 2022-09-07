@@ -9,23 +9,26 @@ vim.api.nvim_command('packadd packer.nvim')
 
 local no_errors, error_msg = pcall(function()
 
-  local time
-  local profile_info
-  local should_profile = false
-  if should_profile then
-    local hrtime = vim.loop.hrtime
-    profile_info = {}
-    time = function(chunk, start)
-      if start then
-        profile_info[chunk] = hrtime()
-      else
-        profile_info[chunk] = (hrtime() - profile_info[chunk]) / 1e6
-      end
+_G._packer = _G._packer or {}
+_G._packer.inside_compile = true
+
+local time
+local profile_info
+local should_profile = false
+if should_profile then
+  local hrtime = vim.loop.hrtime
+  profile_info = {}
+  time = function(chunk, start)
+    if start then
+      profile_info[chunk] = hrtime()
+    else
+      profile_info[chunk] = (hrtime() - profile_info[chunk]) / 1e6
     end
-  else
-    time = function(chunk, start) end
   end
-  
+else
+  time = function(chunk, start) end
+end
+
 local function save_profiles(threshold)
   local sorted_times = {}
   for chunk_name, time_taken in pairs(profile_info) do
@@ -38,8 +41,10 @@ local function save_profiles(threshold)
       results[i] = elem[1] .. ' took ' .. elem[2] .. 'ms'
     end
   end
+  if threshold then
+    table.insert(results, '(Only showing plugins that took longer than ' .. threshold .. ' ms ' .. 'to load)')
+  end
 
-  _G._packer = _G._packer or {}
   _G._packer.profile_output = results
 end
 
@@ -261,7 +266,7 @@ _G.packer_plugins = {
     url = "https://github.com/windwp/nvim-autopairs"
   },
   ["nvim-cmp"] = {
-    after = { "cmp-nvim-lsp-signature-help", "cmp-nvim-lua", "cmp-nvim-lsp-document-symbol", "cmp-buffer", "cmp_luasnip", "cmp-path" },
+    after = { "cmp-nvim-lua", "cmp-nvim-lsp-document-symbol", "cmp-path", "cmp-nvim-lsp-signature-help", "cmp-buffer", "cmp_luasnip" },
     config = { "require('config.cmp')" },
     load_after = {
       LuaSnip = true
@@ -368,6 +373,7 @@ _G.packer_plugins = {
   },
   ["telescope.nvim"] = {
     after = { "telescope-frecency.nvim" },
+    commands = { "Telescope" },
     config = { "require('config.telescope')" },
     loaded = false,
     needs_bufread = true,
@@ -453,54 +459,10 @@ if not vim.g.packer_custom_loader_enabled then
   vim.g.packer_custom_loader_enabled = true
 end
 
--- Config for: nvim-autopairs
-time([[Config for nvim-autopairs]], true)
-require('config.autopairs')
-time([[Config for nvim-autopairs]], false)
--- Config for: gitsigns.nvim
-time([[Config for gitsigns.nvim]], true)
-require('config.gitsigns')
-time([[Config for gitsigns.nvim]], false)
--- Config for: nvim-colorizer.lua
-time([[Config for nvim-colorizer.lua]], true)
-require('colorizer').setup()
-time([[Config for nvim-colorizer.lua]], false)
--- Config for: nvim-dap
-time([[Config for nvim-dap]], true)
-require('config.dap')
-time([[Config for nvim-dap]], false)
--- Config for: indent-blankline.nvim
-time([[Config for indent-blankline.nvim]], true)
-require('config.indentline')
-time([[Config for indent-blankline.nvim]], false)
 -- Config for: bufferline.nvim
 time([[Config for bufferline.nvim]], true)
 require('config.bufferline')
 time([[Config for bufferline.nvim]], false)
--- Config for: nvim-tree.lua
-time([[Config for nvim-tree.lua]], true)
-require('config.nvim-tree')
-time([[Config for nvim-tree.lua]], false)
--- Config for: toggleterm.nvim
-time([[Config for toggleterm.nvim]], true)
-require('config.toggleterm')
-time([[Config for toggleterm.nvim]], false)
--- Config for: alpha-nvim
-time([[Config for alpha-nvim]], true)
-require('config.alpha')
-time([[Config for alpha-nvim]], false)
--- Config for: competitest.nvim
-time([[Config for competitest.nvim]], true)
-require('config.competitest')
-time([[Config for competitest.nvim]], false)
--- Config for: project.nvim
-time([[Config for project.nvim]], true)
-require('config.project')
-time([[Config for project.nvim]], false)
--- Config for: leap.nvim
-time([[Config for leap.nvim]], true)
-require('config.leap')
-time([[Config for leap.nvim]], false)
 -- Config for: vim-illuminate
 time([[Config for vim-illuminate]], true)
 require('config.illuminate')
@@ -509,10 +471,54 @@ time([[Config for vim-illuminate]], false)
 time([[Config for lualine.nvim]], true)
 require('config.lualine')
 time([[Config for lualine.nvim]], false)
+-- Config for: competitest.nvim
+time([[Config for competitest.nvim]], true)
+require('config.competitest')
+time([[Config for competitest.nvim]], false)
+-- Config for: nvim-tree.lua
+time([[Config for nvim-tree.lua]], true)
+require('config.nvim-tree')
+time([[Config for nvim-tree.lua]], false)
+-- Config for: alpha-nvim
+time([[Config for alpha-nvim]], true)
+require('config.alpha')
+time([[Config for alpha-nvim]], false)
+-- Config for: nvim-autopairs
+time([[Config for nvim-autopairs]], true)
+require('config.autopairs')
+time([[Config for nvim-autopairs]], false)
+-- Config for: nvim-dap
+time([[Config for nvim-dap]], true)
+require('config.dap')
+time([[Config for nvim-dap]], false)
+-- Config for: leap.nvim
+time([[Config for leap.nvim]], true)
+require('config.leap')
+time([[Config for leap.nvim]], false)
+-- Config for: indent-blankline.nvim
+time([[Config for indent-blankline.nvim]], true)
+require('config.indentline')
+time([[Config for indent-blankline.nvim]], false)
+-- Config for: nvim-colorizer.lua
+time([[Config for nvim-colorizer.lua]], true)
+require('colorizer').setup()
+time([[Config for nvim-colorizer.lua]], false)
 -- Config for: nvim-treesitter
 time([[Config for nvim-treesitter]], true)
 require('config.treesitter')
 time([[Config for nvim-treesitter]], false)
+-- Config for: toggleterm.nvim
+time([[Config for toggleterm.nvim]], true)
+require('config.toggleterm')
+time([[Config for toggleterm.nvim]], false)
+-- Config for: gitsigns.nvim
+time([[Config for gitsigns.nvim]], true)
+require('config.gitsigns')
+time([[Config for gitsigns.nvim]], false)
+-- Config for: project.nvim
+time([[Config for project.nvim]], true)
+require('config.project')
+time([[Config for project.nvim]], false)
 -- Load plugins in order defined by `after`
 time([[Sequenced loading]], true)
 vim.cmd [[ packadd mason.nvim ]]
@@ -522,6 +528,7 @@ time([[Sequenced loading]], false)
 -- Command lazy-loads
 time([[Defining lazy-load commands]], true)
 pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file StartupTime lua require("packer.load")({'vim-startuptime'}, { cmd = "StartupTime", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
+pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file Telescope lua require("packer.load")({'telescope.nvim'}, { cmd = "Telescope", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
 time([[Defining lazy-load commands]], false)
 
 vim.cmd [[augroup packer_load_aucmds]]
@@ -532,6 +539,13 @@ vim.cmd [[au InsertEnter * ++once lua require("packer.load")({'nvim-cmp', 'LuaSn
 vim.cmd [[au User ActuallyEditing ++once lua require("packer.load")({'Comment.nvim'}, { event = "User ActuallyEditing" }, _G.packer_plugins)]]
 time([[Defining lazy-load event autocommands]], false)
 vim.cmd("augroup END")
+
+_G._packer.inside_compile = false
+if _G._packer.needs_bufread == true then
+  vim.cmd("doautocmd BufRead")
+end
+_G._packer.needs_bufread = false
+
 if should_profile then save_profiles() end
 
 end)

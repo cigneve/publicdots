@@ -76,6 +76,9 @@ nm-applet &
 # Bluetooth applet
 blueman-applet &
 
+# Thunderbird applet
+birdtray &
+
 # Wallpaper
 $HOME/.fehbg
 #pgrep -x xwinwrap || xwinwrap  -b -nf -ni -fs -ov -nf -- mpv --loop-file=inf --speed=1 -wid WID ~/cityange.gif &> /dev/null

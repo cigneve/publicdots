@@ -44,12 +44,42 @@ local kind_icons = {
 }
 
 cmp.setup({
+	completion = {
+		autocomplete = false,
+	},
 	snippet = {
 		expand = function(args)
 			luasnip.lsp_expand(args.body) -- For `luasnip` users.
 		end,
 	},
+	sorting = {
+		comparators = {
+			-- function(entry1, entry2)
+			--   local score1 = entry1.completion_item.score
+			--   local score2 = entry2.completion_item.score
+			--   if score1 and score2 then
+			--     return (score1 - score2) < 0
+			--   end
+			-- end,
 
+			-- The built-in comparators:
+			cmp.config.compare.offset,
+			cmp.config.compare.exact,
+			cmp.config.compare.score,
+			require("cmp-under-comparator").under,
+			cmp.config.compare.kind,
+			cmp.config.compare.sort_text,
+			cmp.config.compare.length,
+			cmp.config.compare.order,
+		},
+	},
+
+	source_priority = {
+		nvim_lsp = 1000,
+		luasnip = 750,
+		buffer = 500,
+		path = 250,
+	},
 	mapping = cmp.mapping.preset.insert({
 		["<C-k>"] = cmp.mapping.select_prev_item(),
 		["<C-j>"] = cmp.mapping.select_next_item(),
@@ -108,6 +138,7 @@ cmp.setup({
 		end,
 	},
 	sources = {
+		{ name = "nvim_lsp_signature_help" },
 		{ name = "nvim_lsp" },
 		{ name = "nvim_lua" },
 		{ name = "luasnip" },

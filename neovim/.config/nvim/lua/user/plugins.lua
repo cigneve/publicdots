@@ -111,6 +111,7 @@ return packer.startup(function(use)
 				"telescope-fzf-native.nvim",
 			},
 			--setup = [[require('config.telescope_setup')]],
+			cmd = "Telescope",
 			config = [[require('config.telescope')]],
 			module = "telescope",
 		},

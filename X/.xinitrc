@@ -35,4 +35,6 @@ xrdb -merge ~/.config/kanagawa
 
 # Sometimes i envy awesomewm rices so it should stay here for quick access
 #exec awesome
+dbus-update-activation-environment DISPLAY
+
 exec bspwm

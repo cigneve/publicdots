@@ -17,10 +17,7 @@ Xft.lcdfilter: lcddefault
 xcursor.theme:            Vanilla-DMZ
 xscreensaver.fade:   false
 xscreensaver.unfade: false
-! ===== urxvt =====
-URxvt.scrollBar: off
-URxvt.font: xft:monospace:size=12
-URxvt.internalBorder:     22
+*font: monospace:size=12
 ! =================
 
 ! *.foreground:    #A9B1D6
