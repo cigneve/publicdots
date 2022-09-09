@@ -1,0 +1,104 @@
+/* vim: set filetype=json : */  
+{
+    "layer": "bottom",
+    "height": 30,
+    "spacing": 0,
+    "margin-top": 3,
+    "margin-bottom": 3,
+
+    // If you're using sway, replace `river/tags` with `sway/workspaces` .
+
+    "modules-left": ["river/tags",  "pulseaudio", "mpd", "custom/mpd-song-scroll"],
+    "modules-right": ["custom/update-count", "cpu", "memory", "clock#date", "clock", "tray"],
+
+    "group/mpd": {
+        "modules": [
+            "mpd",
+        ]
+    },
+
+    "river/tags": {
+        "num-tags": 8,
+        "tag-labels": [
+            "一", "二", "三", "四", "五", "六", "七", "八", "九", "十"
+           ]
+    },
+
+    "mpd": {
+        "format": "{stateIcon} {elapsedTime:%M:%S}/{totalTime:%M:%S} {repeatIcon}{singleIcon}{randomIcon}{consumeIcon}",
+        "format-disconnected": "",
+        "format-stopped": "",
+        "interval": 1,
+        "state-icons": {
+            "paused": "▶️",
+            "playing": "⏸"
+        },
+
+        "consume-icons": {
+            "off": "<span color='#919191'> </span>",
+            "on": " "
+        },
+        "random-icons": {
+            "off": "<span color='#919191'> </span>",
+            "on": " "
+        },
+        "repeat-icons": {
+            "off": "<span color='#919191'> </span>",
+            "on": " "
+        },
+        "single-icons": {
+            "off": "<span color='#919191'> </span>",
+            "on": " "
+        },
+    },
+
+    "tray": {
+        "icon-size": 21,
+        "spacing": 5
+    },
+
+    "clock": {
+        "tooltip-format": "<span rise=\"-14pt\"><big>{:%Y B}</big>\n<tt><small>{calendar}</small></tt></span>",
+        "format": "🍔 {:%I:%M %p}",
+    },
+
+    "clock#date": {
+        "tooltip-format": "<span rise=\"-14pt\"><big>{:%Y B}</big>\n<tt><small>{calendar}</small></tt></span>",
+        "format": "{:🍟 %B %d, %A}",
+    },
+
+    "backlight": {
+        "device": "intel-backlight",
+        "format": "{icon} {percent}%",
+        "format-icons": [ "🍕" ],
+        "on-scroll-up": "xbacklight -inc 5",
+        "on-scroll-down": "xbacklight -dec 5",
+    },
+
+    "pulseaudio": {
+        "scroll-step": 2, // %, can be a float
+        "format": "{icon} {volume}% ",
+        "format-muted": "🔇 ... ",
+        "format-icons": {
+            "default": ["🌮"]
+        },
+        "on-click": "pamixer -t"
+    },
+
+    "cpu": {
+        "format": "🍝 CPU: {load}%"
+    },
+
+    "memory": {
+        "format": "🥪 RAM: {used:0.1f}G/{total:0.1f}G"
+    },
+
+    // Need mpd installed for this to work
+    "custom/mpd-song-scroll": {
+        "format": "<span color=\"#D08250\"></span><span bgcolor=\"#D08250\"> {} </span><span color=\"#D08250\"></span>",
+        "max-length": 80,
+        "escape": true,
+        "exec":  "~/.config/waybar/scripts/mpd_song_scroll"
+    },
+
+}

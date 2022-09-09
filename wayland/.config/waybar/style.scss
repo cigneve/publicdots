@@ -1,0 +1,212 @@
+// Angelo's Waybar config
+// https://github.com/angelofallars/dotfiles
+
+// Use Sass to compile this file down to CSS and restyle my bar.
+// https://sass-lang.com/installhttps://sass-lang.com/install
+// After downloading Sass, run this in this directory
+// to compile your changes:
+// $ sass --watch . --no-source-map
+
+// NOTE: If the Japanese River workspace icons do not show up,
+// you should install the Han Sans JP font.
+// Arch Linux:
+// $ sudo pacman -S adobe-source-han-sans-jp-fonts
+
+@use "colors";
+
+// Distance of the entire bar from the sides
+$screen-margin: 1px;
+
+// Distance from the top of the screen
+$top-margin: 0px;
+
+// Margin/padding of individual modules
+$module-margin: 2px;
+$module-padding: 10px;
+
+// Font config
+$font: "JetBrains Mono Nerd Font";
+$font-size: 14px;
+$font-weight: 600;
+
+// How far away should the box shadow effect be diagonally
+$box-shadow-distance: 3px;
+
+// Border radius. Turning this option up will also round the offset shadows.
+$bar-border-radius: 5px;
+
+// -------------------------
+// Actual styling of the bar
+// -------------------------
+
+@mixin square-shadow {
+  box-shadow: $box-shadow-distance $box-shadow-distance 0 colors.$shadow;
+  margin-bottom: $box-shadow-distance;
+  margin-right: $box-shadow-distance;
+}
+
+@mixin single-module {
+  @include square-shadow;
+  margin-left: $module-margin;
+  margin-right: $module-margin + $box-shadow-distance;
+  padding-left: $module-padding;
+  padding-right: $module-padding;
+
+  background: colors.$bg;
+  border-radius: $bar-border-radius;
+}
+
+// !! If you add new custom modules, put their class name in here.
+#backlight,
+#battery,
+#cpu,
+#disk,
+#idle_inhibitor,
+#keyboard-state,
+#pulseaudio,
+#clock,
+#tags,
+#language,
+#memory,
+#network,
+#sndio,
+#mode,
+#window,
+#workspaces,
+#temperature,
+#taskbar,
+#workspaces,
+#custom-treefetch-downloads,
+#custom-update-count,
+#custom-axyl-downloads {
+  @include single-module;
+}
+
+* {
+  min-height: 0;
+}
+
+window#waybar {
+  background: transparent;
+  color: colors.$fg;
+}
+
+.modules-left,
+.modules-center,
+.modules-right {
+  background: transparent;
+  margin-top: $top-margin;
+  border-radius: $bar-border-radius;
+  font-family: $font, monospace;
+  font-size: $font-size;
+  font-weight: $font-weight;
+}
+
+.modules-left {
+  margin-left: $screen-margin;
+  margin-right: 3px;
+}
+
+.modules-right {
+  margin-right: $screen-margin;
+}
+
+#mpd,
+#custom-mpd-song-scroll {
+  font-size: $font-size - 2.5px;
+  margin-bottom: 4px;
+  padding: 0;
+}
+
+#mpd {
+  color: colors.$accent-color-no-bg;
+  margin-right: 2px;
+  margin-left: $module-margin;
+}
+
+#custom-mpd-song-scroll {
+  color: colors.$white-text;
+  border-radius: 3px;
+  min-height: 18px;
+}
+
+// River tags
+
+#tags button {
+  color: colors.$fg-alt;
+  font-family: "Source Han Sans JP";
+  font-weight: 700;
+  padding: 0 3px;
+  margin: 0 3px;
+  min-width: 26px;
+  font-size: 17px;
+  border-radius: 0;
+  border: none;
+  transition: none;
+}
+
+#tags button.occupied {
+  color: inherit;
+}
+
+#tags button:hover {
+  color: colors.$bg;
+  background: colors.$fg-alt;
+  box-shadow: none;
+  text-shadow: none;
+  transition: 0;
+}
+
+#tags button.focused {
+  color: colors.$bg;
+  background: colors.$accent-color;
+}
+
+#tags button.urgent {
+  color: colors.$red;
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+tooltip {
+  background: colors.$bg;
+  border-radius: 7px;
+  font-family: $font, monospace;
+  font-weight: $font-weight;
+  font-size: $font-size;
+  padding: 20px;
+  animation-name: fadein;
+  animation-duration: 0.2s;
+  border: 2px solid colors.$fg-alt;
+  text-shadow: none;
+  color: colors.$fg;
+}
+
+tooltip label {
+  color: colors.$fg;
+}
+
+#tray {
+  @include single-module;
+  $padding: calc($module-padding / 2);
+  padding-left: $padding;
+  padding-right: $padding;
+}
+
+#tray menu {
+  background: colors.$bg;
+  color: colors.$fg;
+  border-radius: 5px;
+  border: 2px solid colors.$fg-alt;
+  padding: 4px 0;
+  font-family: $font, monospace;
+  font-weight: $font-weight;
+  font-size: $font-size;
+}

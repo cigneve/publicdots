@@ -1,0 +1,61 @@
+#!/bin/python3
+"""arch_updates: print the number of updates in Arch-based systems
+
+   Requirements: `pacman-contrib` package
+   > sudo pacman -Syu pacman-contrib
+"""
+
+import subprocess
+from os import path
+from time import time
+
+TEMP_FILE = "/tmp/arch_updates"
+
+
+def format_output(pkg_count: int) -> str:
+    if pkg_count > 1:
+        word = "updates"
+    elif pkg_count == 1:
+        word = "update"
+    else:
+        return "😋 up-to-date"
+
+    return f"🧀 {pkg_count} {word}"
+
+
+def main() -> int:
+    # Print cached value first
+    if path.exists(TEMP_FILE):
+        with open(TEMP_FILE, "r") as file:
+            pkg_count = file.read().count("\n")
+            print(format_output(pkg_count), flush=True)
+
+        modification_date = path.getmtime(TEMP_FILE)
+        current_time = time()
+
+        # Check if it's still too early to query the servers
+        if current_time < modification_date + 60:
+            return 0
+
+    proc = subprocess.run("checkupdates", capture_output=True)
+
+    # 2 is the return code for `checkupdates` if everything is up-to-date
+    if proc.returncode not in [0, 2]:
+        return 1
+
+    output = proc.stdout.decode("utf_8")
+
+    # Write output to tmp file
+    with open(TEMP_FILE, "w") as file:
+        file.write(output)
+
+    # Packages to update are separated by newlines
+    pkg_count = output.count("\n")
+
+    print(format_output(pkg_count), flush=True)
+
+    return 0
+
+
+if __name__ == "__main__":
+    exit(main())
