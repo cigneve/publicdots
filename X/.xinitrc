@@ -31,7 +31,7 @@ udiskie &
 # Start geoclue (actually don't)
 #dex /etc/xdg/autostart/geoclue-demo-agent.desktop &
 
-xrdb -merge ~/.config/kanagawa
+xrdb -merge ~/.config/everforest
 
 # Sometimes i envy awesomewm rices so it should stay here for quick access
 #exec awesome
