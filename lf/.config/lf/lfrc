@@ -36,10 +36,11 @@ cmd mkdir %{{
   mkdir -p "$(echo $ans | tr ' ' '\ ')"
 }}
 
-cmd mkfile %{{
-  printf "File Name: "
+cmd touch %{{
+  [[ "$#" -lt 0 ]] || touch $* && exit
+  printf "Directory Name: "
   read ans
-  $EDITOR $ans
+  touch $ans
 }}
 
 # Archive bindings

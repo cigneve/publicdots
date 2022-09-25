@@ -15,25 +15,25 @@
 @use "colors";
 
 // Distance of the entire bar from the sides
-$screen-margin: 1px;
+$screen-margin: 6px;
 
 // Distance from the top of the screen
-$top-margin: 0px;
+$top-margin: 4px;
 
 // Margin/padding of individual modules
-$module-margin: 2px;
+$module-margin: 3px;
 $module-padding: 10px;
 
 // Font config
 $font: "JetBrains Mono Nerd Font";
-$font-size: 14px;
-$font-weight: 600;
+$font-size: 15px;
+$font-weight: 500;
 
 // How far away should the box shadow effect be diagonally
-$box-shadow-distance: 3px;
+$box-shadow-distance: 4px;
 
 // Border radius. Turning this option up will also round the offset shadows.
-$bar-border-radius: 5px;
+$bar-border-radius: 0px;
 
 // -------------------------
 // Actual styling of the bar
@@ -49,8 +49,7 @@ $bar-border-radius: 5px;
   @include square-shadow;
   margin-left: $module-margin;
   margin-right: $module-margin + $box-shadow-distance;
-  padding-left: $module-padding;
-  padding-right: $module-padding;
+  padding: 0 $module-padding;
 
   background: colors.$bg;
   border-radius: $bar-border-radius;
@@ -75,10 +74,7 @@ $bar-border-radius: 5px;
 #workspaces,
 #temperature,
 #taskbar,
-#workspaces,
-#custom-treefetch-downloads,
-#custom-update-count,
-#custom-axyl-downloads {
+#custom-treefetch-downloads {
   @include single-module;
 }
 
@@ -104,7 +100,6 @@ window#waybar {
 
 .modules-left {
   margin-left: $screen-margin;
-  margin-right: 3px;
 }
 
 .modules-right {
@@ -113,21 +108,18 @@ window#waybar {
 
 #mpd,
 #custom-mpd-song-scroll {
-  font-size: $font-size - 2.5px;
-  margin-bottom: 4px;
-  padding: 0;
+  font-size: 14px;
+  margin-bottom: 3px;
 }
 
 #mpd {
   color: colors.$accent-color-no-bg;
-  margin-right: 2px;
-  margin-left: $module-margin;
+  margin-left: $module-margin + 2px;
 }
 
 #custom-mpd-song-scroll {
-  color: colors.$white-text;
-  border-radius: 3px;
-  min-height: 18px;
+  color: colors.$fg-no-bg;
+  margin-right: 50px;
 }
 
 // River tags
@@ -136,34 +128,11 @@ window#waybar {
   color: colors.$fg-alt;
   font-family: "Source Han Sans JP";
   font-weight: 700;
-  padding: 0 3px;
-  margin: 0 3px;
-  min-width: 26px;
+  padding: 0 6px;
+  margin: 0 4px;
   font-size: 17px;
   border-radius: 0;
   border: none;
-  transition: none;
-}
-
-#tags button.occupied {
-  color: inherit;
-}
-
-#tags button:hover {
-  color: colors.$bg;
-  background: colors.$fg-alt;
-  box-shadow: none;
-  text-shadow: none;
-  transition: 0;
-}
-
-#tags button.focused {
-  color: colors.$bg;
-  background: colors.$accent-color;
-}
-
-#tags button.urgent {
-  color: colors.$red;
 }
 
 @keyframes fadein {
@@ -181,7 +150,7 @@ tooltip {
   font-family: $font, monospace;
   font-weight: $font-weight;
   font-size: $font-size;
-  padding: 20px;
+  padding: 5px;
   animation-name: fadein;
   animation-duration: 0.2s;
   border: 2px solid colors.$fg-alt;
@@ -193,20 +162,9 @@ tooltip label {
   color: colors.$fg;
 }
 
-#tray {
-  @include single-module;
-  $padding: calc($module-padding / 2);
-  padding-left: $padding;
-  padding-right: $padding;
-}
-
 #tray menu {
   background: colors.$bg;
   color: colors.$fg;
   border-radius: 5px;
   border: 2px solid colors.$fg-alt;
-  padding: 4px 0;
-  font-family: $font, monospace;
-  font-weight: $font-weight;
-  font-size: $font-size;
 }

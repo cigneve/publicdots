@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+# Author : rxyhn
+
+DIR="$HOME/.config/dunst"
+BRIGHTNESS_STEPS=5
+
+function get_brightness {
+  printf "%.0f\n" $(brillo -G)
+}
+
+function send_notification {
+  icon="$DIR/icons/brightness.svg"
+  brightness=$(get_brightness)
+  # Send the notification
+  dunstify "Brightness: ${brightness}%" -i $icon -r 5555 -u normal -h int:value:$(($brightness))
+}
+
+case $1 in
+  up)
+    # increase the backlight by 10%
+	 brillo -A 10 -u 200000
+	 send_notification
+    ;;
+  down)
+    # decrease the backlight by 10%
+	 brillo -U 10 -u 200000
+	 send_notification
+    ;;
+esac

@@ -64,10 +64,11 @@ return packer.startup(function(use)
 	use({ "goolord/alpha-nvim", config = [[require('config.alpha')]] })
 
 	-- Colorschemes
-	use({ "rose-pine/neovim" })
 	use({ "sainnhe/gruvbox-material" })
+	use({ "sainnhe/everforest" })
 	use({ "rebelot/kanagawa.nvim" })
-
+	use({ "RRethy/nvim-base16" })
+	use({ "sainnhe/sonokai" })
 	-- Completion
 	use({
 		"hrsh7th/nvim-cmp",
@@ -118,7 +119,6 @@ return packer.startup(function(use)
 			--setup = [[require('config.telescope_setup')]],
 			cmd = "Telescope",
 			config = [[require('config.telescope')]],
-			module = "telescope",
 		},
 		{
 			"nvim-telescope/telescope-frecency.nvim",
@@ -142,7 +142,11 @@ return packer.startup(function(use)
 	use({ "lewis6991/gitsigns.nvim", config = [[require('config.gitsigns')]] })
 
 	-- DAP
-	use({ "mfussenegger/nvim-dap", config = [[require('config.dap')]] })
+	use({
+		"mfussenegger/nvim-dap",
+		config = [[require('config.dap')]],
+		cmd = { "BreakpointToggle", "Debug", "DapREPL" },
+	})
 	use({ "rcarriga/nvim-dap-ui" })
 
 	-- Competitive programming helper
@@ -166,9 +170,43 @@ return packer.startup(function(use)
 	-- Profiling
 	use({ "dstein64/vim-startuptime", cmd = "StartupTime", config = [[vim.g.startuptime_tries = 10]] })
 
-	-- EWW support
-	use("elkowar/yuck.vim")
-
+	-- Neorg mode
+	use({
+		"nvim-neorg/neorg",
+		-- Only load if Neovim version >= 0.8
+		cond = function()
+			return vim.version().minor >= 8
+		end,
+		config = function()
+			require("neorg").setup({
+				load = {
+					["core.defaults"] = {},
+					["core.norg.dirman"] = {
+						config = {
+							workspaces = {
+								work = "~/notes/work",
+								home = "~/notes/home",
+							},
+						},
+					},
+					["core.gtd.base"] = {
+						config = {
+							workspace = "work",
+						},
+					},
+				},
+			})
+			require("nvim-treesitter.configs").setup({
+				ensure_installed = {
+					"norg", --[[ other parsers you would wish to have ]]
+				},
+				highlight = { -- Be sure to enable highlights if you haven't!
+					enable = true,
+				},
+			})
+		end,
+		requires = "nvim-lua/plenary.nvim",
+	})
 	-- Colorizer
 	use({ "norcalli/nvim-colorizer.lua", config = [[require('colorizer').setup()]] })
 

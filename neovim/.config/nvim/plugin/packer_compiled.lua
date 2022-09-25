@@ -76,6 +76,7 @@ time([[Defining packer_plugins]], true)
 _G.packer_plugins = {
   ["Comment.nvim"] = {
     config = { "require('config.comment')" },
+    keys = { { "", "gc" }, { "", "gb" }, { "", "g<" }, { "", "g>" } },
     loaded = false,
     needs_bufread = false,
     only_cond = false,
@@ -178,6 +179,11 @@ _G.packer_plugins = {
     path = "/home/bab/.local/share/nvim/site/pack/packer/start/competitest.nvim",
     url = "https://github.com/xeluxee/competitest.nvim"
   },
+  everforest = {
+    loaded = true,
+    path = "/home/bab/.local/share/nvim/site/pack/packer/start/everforest",
+    url = "https://github.com/sainnhe/everforest"
+  },
   ["friendly-snippets"] = {
     loaded = true,
     path = "/home/bab/.local/share/nvim/site/pack/packer/start/friendly-snippets",
@@ -244,10 +250,14 @@ _G.packer_plugins = {
     path = "/home/bab/.local/share/nvim/site/pack/packer/start/mason.nvim",
     url = "https://github.com/williamboman/mason.nvim"
   },
-  neovim = {
-    loaded = true,
-    path = "/home/bab/.local/share/nvim/site/pack/packer/start/neovim",
-    url = "https://github.com/rose-pine/neovim"
+  neorg = {
+    cond = { "\27LJ\2\nE\0\0\2\0\3\0\v6\0\0\0009\0\1\0B\0\1\0029\0\2\0)\1\b\0\2\1\0\0X\0\2€+\0\1\0X\1\1€+\0\2\0L\0\2\0\nminor\fversion\bvim\0" },
+    config = { "\27LJ\2\ní\2\0\0\a\0\22\0\0316\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\14\0005\3\3\0004\4\0\0=\4\4\0035\4\b\0005\5\6\0005\6\5\0=\6\a\5=\5\t\4=\4\n\0035\4\f\0005\5\v\0=\5\t\4=\4\r\3=\3\15\2B\0\2\0016\0\0\0'\2\16\0B\0\2\0029\0\2\0005\2\18\0005\3\17\0=\3\19\0025\3\20\0=\3\21\2B\0\2\1K\0\1\0\14highlight\1\0\1\venable\2\21ensure_installed\1\0\0\1\2\0\0\tnorg\28nvim-treesitter.configs\tload\1\0\0\18core.gtd.base\1\0\0\1\0\1\14workspace\twork\21core.norg.dirman\vconfig\1\0\0\15workspaces\1\0\0\1\0\2\twork\17~/notes/work\thome\17~/notes/home\18core.defaults\1\0\0\nsetup\nneorg\frequire\0" },
+    loaded = false,
+    needs_bufread = true,
+    only_cond = true,
+    path = "/home/bab/.local/share/nvim/site/pack/packer/opt/neorg",
+    url = "https://github.com/nvim-neorg/neorg"
   },
   ["nui.nvim"] = {
     loaded = true,
@@ -265,8 +275,13 @@ _G.packer_plugins = {
     path = "/home/bab/.local/share/nvim/site/pack/packer/start/nvim-autopairs",
     url = "https://github.com/windwp/nvim-autopairs"
   },
+  ["nvim-base16"] = {
+    loaded = true,
+    path = "/home/bab/.local/share/nvim/site/pack/packer/start/nvim-base16",
+    url = "https://github.com/RRethy/nvim-base16"
+  },
   ["nvim-cmp"] = {
-    after = { "cmp-nvim-lua", "cmp-nvim-lsp-document-symbol", "cmp-path", "cmp-nvim-lsp-signature-help", "cmp-buffer", "cmp_luasnip" },
+    after = { "cmp-path", "cmp-nvim-lsp-document-symbol", "cmp-nvim-lua", "cmp-nvim-lsp-signature-help", "cmp-buffer", "cmp_luasnip" },
     config = { "require('config.cmp')" },
     load_after = {
       LuaSnip = true
@@ -347,6 +362,11 @@ _G.packer_plugins = {
     path = "/home/bab/.local/share/nvim/site/pack/packer/start/project.nvim",
     url = "https://github.com/ahmedkhalf/project.nvim"
   },
+  sonokai = {
+    loaded = true,
+    path = "/home/bab/.local/share/nvim/site/pack/packer/start/sonokai",
+    url = "https://github.com/sainnhe/sonokai"
+  },
   ["sqlite.lua"] = {
     loaded = true,
     path = "/home/bab/.local/share/nvim/site/pack/packer/start/sqlite.lua",
@@ -422,17 +442,13 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/bab/.local/share/nvim/site/pack/packer/start/vimtex",
     url = "https://github.com/lervag/vimtex"
-  },
-  ["yuck.vim"] = {
-    loaded = true,
-    path = "/home/bab/.local/share/nvim/site/pack/packer/start/yuck.vim",
-    url = "https://github.com/elkowar/yuck.vim"
   }
 }
 
 time([[Defining packer_plugins]], false)
 local module_lazy_loads = {
-  ["^telescope"] = "telescope.nvim"
+  ["^Comment"] = "Comment.nvim",
+  ["^Comment%.api"] = "Comment.nvim"
 }
 local lazy_load_called = {['packer.load'] = true}
 local function lazy_load_module(module_name)
@@ -459,66 +475,70 @@ if not vim.g.packer_custom_loader_enabled then
   vim.g.packer_custom_loader_enabled = true
 end
 
--- Config for: bufferline.nvim
-time([[Config for bufferline.nvim]], true)
-require('config.bufferline')
-time([[Config for bufferline.nvim]], false)
--- Config for: vim-illuminate
-time([[Config for vim-illuminate]], true)
-require('config.illuminate')
-time([[Config for vim-illuminate]], false)
--- Config for: lualine.nvim
-time([[Config for lualine.nvim]], true)
-require('config.lualine')
-time([[Config for lualine.nvim]], false)
--- Config for: competitest.nvim
-time([[Config for competitest.nvim]], true)
-require('config.competitest')
-time([[Config for competitest.nvim]], false)
--- Config for: nvim-tree.lua
-time([[Config for nvim-tree.lua]], true)
-require('config.nvim-tree')
-time([[Config for nvim-tree.lua]], false)
--- Config for: alpha-nvim
-time([[Config for alpha-nvim]], true)
-require('config.alpha')
-time([[Config for alpha-nvim]], false)
--- Config for: nvim-autopairs
-time([[Config for nvim-autopairs]], true)
-require('config.autopairs')
-time([[Config for nvim-autopairs]], false)
--- Config for: nvim-dap
-time([[Config for nvim-dap]], true)
-require('config.dap')
-time([[Config for nvim-dap]], false)
--- Config for: leap.nvim
-time([[Config for leap.nvim]], true)
-require('config.leap')
-time([[Config for leap.nvim]], false)
--- Config for: indent-blankline.nvim
-time([[Config for indent-blankline.nvim]], true)
-require('config.indentline')
-time([[Config for indent-blankline.nvim]], false)
 -- Config for: nvim-colorizer.lua
 time([[Config for nvim-colorizer.lua]], true)
 require('colorizer').setup()
 time([[Config for nvim-colorizer.lua]], false)
+-- Config for: vim-illuminate
+time([[Config for vim-illuminate]], true)
+require('config.illuminate')
+time([[Config for vim-illuminate]], false)
+-- Config for: nvim-autopairs
+time([[Config for nvim-autopairs]], true)
+require('config.autopairs')
+time([[Config for nvim-autopairs]], false)
+-- Config for: nvim-tree.lua
+time([[Config for nvim-tree.lua]], true)
+require('config.nvim-tree')
+time([[Config for nvim-tree.lua]], false)
 -- Config for: nvim-treesitter
 time([[Config for nvim-treesitter]], true)
 require('config.treesitter')
 time([[Config for nvim-treesitter]], false)
--- Config for: toggleterm.nvim
-time([[Config for toggleterm.nvim]], true)
-require('config.toggleterm')
-time([[Config for toggleterm.nvim]], false)
 -- Config for: gitsigns.nvim
 time([[Config for gitsigns.nvim]], true)
 require('config.gitsigns')
 time([[Config for gitsigns.nvim]], false)
+-- Config for: indent-blankline.nvim
+time([[Config for indent-blankline.nvim]], true)
+require('config.indentline')
+time([[Config for indent-blankline.nvim]], false)
+-- Config for: toggleterm.nvim
+time([[Config for toggleterm.nvim]], true)
+require('config.toggleterm')
+time([[Config for toggleterm.nvim]], false)
+-- Config for: leap.nvim
+time([[Config for leap.nvim]], true)
+require('config.leap')
+time([[Config for leap.nvim]], false)
+-- Config for: bufferline.nvim
+time([[Config for bufferline.nvim]], true)
+require('config.bufferline')
+time([[Config for bufferline.nvim]], false)
+-- Config for: lualine.nvim
+time([[Config for lualine.nvim]], true)
+require('config.lualine')
+time([[Config for lualine.nvim]], false)
+-- Config for: alpha-nvim
+time([[Config for alpha-nvim]], true)
+require('config.alpha')
+time([[Config for alpha-nvim]], false)
+-- Config for: nvim-dap
+time([[Config for nvim-dap]], true)
+require('config.dap')
+time([[Config for nvim-dap]], false)
+-- Config for: competitest.nvim
+time([[Config for competitest.nvim]], true)
+require('config.competitest')
+time([[Config for competitest.nvim]], false)
 -- Config for: project.nvim
 time([[Config for project.nvim]], true)
 require('config.project')
 time([[Config for project.nvim]], false)
+-- Conditional loads
+time([[Conditional loading of neorg]], true)
+  require("packer.load")({"neorg"}, {}, _G.packer_plugins)
+time([[Conditional loading of neorg]], false)
 -- Load plugins in order defined by `after`
 time([[Sequenced loading]], true)
 vim.cmd [[ packadd mason.nvim ]]
@@ -527,16 +547,23 @@ time([[Sequenced loading]], false)
 
 -- Command lazy-loads
 time([[Defining lazy-load commands]], true)
-pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file StartupTime lua require("packer.load")({'vim-startuptime'}, { cmd = "StartupTime", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
 pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file Telescope lua require("packer.load")({'telescope.nvim'}, { cmd = "Telescope", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
+pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file StartupTime lua require("packer.load")({'vim-startuptime'}, { cmd = "StartupTime", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
 time([[Defining lazy-load commands]], false)
+
+-- Keymap lazy-loads
+time([[Defining lazy-load keymaps]], true)
+vim.cmd [[noremap <silent> g> <cmd>lua require("packer.load")({'Comment.nvim'}, { keys = "g>", prefix = "" }, _G.packer_plugins)<cr>]]
+vim.cmd [[noremap <silent> gb <cmd>lua require("packer.load")({'Comment.nvim'}, { keys = "gb", prefix = "" }, _G.packer_plugins)<cr>]]
+vim.cmd [[noremap <silent> g< <cmd>lua require("packer.load")({'Comment.nvim'}, { keys = "g<lt>", prefix = "" }, _G.packer_plugins)<cr>]]
+vim.cmd [[noremap <silent> gc <cmd>lua require("packer.load")({'Comment.nvim'}, { keys = "gc", prefix = "" }, _G.packer_plugins)<cr>]]
+time([[Defining lazy-load keymaps]], false)
 
 vim.cmd [[augroup packer_load_aucmds]]
 vim.cmd [[au!]]
   -- Event lazy-loads
 time([[Defining lazy-load event autocommands]], true)
 vim.cmd [[au InsertEnter * ++once lua require("packer.load")({'nvim-cmp', 'LuaSnip'}, { event = "InsertEnter *" }, _G.packer_plugins)]]
-vim.cmd [[au User ActuallyEditing ++once lua require("packer.load")({'Comment.nvim'}, { event = "User ActuallyEditing" }, _G.packer_plugins)]]
 time([[Defining lazy-load event autocommands]], false)
 vim.cmd("augroup END")
 

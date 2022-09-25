@@ -1,0 +1,17 @@
+#!/bin/bash
+fonts=(
+"3d"
+"Bloody"
+"ANSI Regular"
+"ANSI Shadow"
+"DOS Rebel"
+"Delta Corps Priest 1"
+"Elite"
+"THIS"
+"The Edge"
+"pagga"
+"rebel"
+"smbraille"
+)
+rand="$(($RANDOM % ${#fonts[@]}))"
+figlet -f "${fonts[$rand]}" "${@:-1}"

@@ -5,5 +5,5 @@ end
 
 competitest.setup({
 	testcases_use_single_file = true,
-	testcases_directory = "Code/testcases",
+	testcases_directory = vim.fn.expand("~/Code/testcases"),
 })

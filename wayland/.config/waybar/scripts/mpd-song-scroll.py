@@ -2,18 +2,11 @@
 
 import threading
 from time import sleep
+from sys import exit
 from mpd import MPDClient
 
 MAX_LEN = 30
-SLEEP_INTERVAL = 0.9
-
-
-def print_frame(name: str):
-    if name.strip() == "":
-        print("", flush=True)
-        return
-
-    print(name.ljust(MAX_LEN)[:MAX_LEN], flush=True)
+SLEEP_INTERVAL = 0.8
 
 
 # Scroll through a song's name left and right like a music player
@@ -24,11 +17,11 @@ def scroll_song(name: str, max_len: int):
 
     # Exit if max_len is greater than song length ( no need to scroll)
     if max_len > len(name.rstrip()):
-        print_frame(name)
+        print(name, flush=True)
         return
 
     output = name[:max_len]
-    print_frame(name)
+    print(output, flush=True)
     sleep(SLEEP_INTERVAL * 3)
 
     sleep_counter = 0
@@ -48,14 +41,14 @@ def scroll_song(name: str, max_len: int):
             output = output[:max_len]
 
             i += 1
-            print_frame(output)
+            print(output, flush=True)
 
         else:
             sleep_counter += 1
 
             # If paused for too long, reset the title position
             if sleep_counter >= 30:
-                print_frame(name[:max_len])
+                print(name[:max_len], flush=True)
                 i = 1
 
         sleep(SLEEP_INTERVAL)

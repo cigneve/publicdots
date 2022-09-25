@@ -41,3 +41,4 @@ vim.opt.iskeyword:append("-")
 
 -- global vars
 vim.g.gruvbox_material_background = "medium"
+vim.g.everforest_background = "medium"

@@ -2,26 +2,23 @@
 
 import os
 import sys
-import json
-from time import time
 
 if (len(sys.argv) < 2):
-    print("Usage: " + sys.argv[0] + " github-user [github-project]")
+    print ("Usage: " + sys.argv[0] + " github-user [github-project]")
     exit(1)
 
 try:
-    import requests
+   import requests
 except ImportError:
-    print("Error: requests is not installed")
-    print("Installing Requests is simple with pip:\n  pip install requests")
-    print("More info: http://docs.python-requests.org/en/latest/")
+    print ("Error: requests is not installed")
+    print ("Installing Requests is simple with pip:\n  pip install requests")
+    print ("More info: http://docs.python-requests.org/en/latest/")
     exit(1)
-
+import json
 try:
     from StringIO import StringIO
 except ImportError:
     from io import StringIO
-
 
 def dict_to_object(d):
     if '__class__' in d:
@@ -44,7 +41,6 @@ def ensure_str(s):
         pass
     return s
 
-
 full_names = []
 headers = {}
 
@@ -55,38 +51,18 @@ if len(sys.argv) == 3:
     full_names.append(sys.argv[1] + "/" + sys.argv[2])
 else:
     buf = StringIO()
-    r = requests.get("https://api.github.com/users/{sys.argv[1]}/repos",
-                     headers=headers)
+    r = requests.get('https://api.github.com/users/' + sys.argv[1] + '/repos', headers=headers)
     myobj = r.json()
 
     for rep in myobj:
         full_names.insert(0, ensure_str(rep['full_name']))
 
-TEMP_FILE = f"/tmp/waybar_downloads_{full_names[0].replace('/', '_')}"
-
-# Number of minutes before the download count can be checked again
-MINUTES_INTERVAL = 5
-
-if os.path.exists(TEMP_FILE):
-    # Print the temp file contents even if we're
-    # going to make another API call
-    with open(TEMP_FILE, "r") as tmp_file:
-        print(tmp_file.read(), flush=True)
-
-    modification_date = os.path.getmtime(TEMP_FILE)
-    current_time = time()
-
-    # Check if it's still too early to make another GitHub API call
-    # since the hourly call limit is 60
-    if current_time < modification_date + (MINUTES_INTERVAL * 60):
-        exit(0)
 
 for full_name in full_names:
     buf = StringIO()
     total_count = 0
     try:
-        r = requests.get(f"https://api.github.com/repos/{full_name}/releases",
-                         headers=headers)
+        r = requests.get('https://api.github.com/repos/' + full_name + '/releases', headers=headers)
         myobj = r.json()
 
         for p in myobj:
@@ -94,13 +70,16 @@ for full_name in full_names:
                 for asset in p['assets']:
                     total_count += asset['download_count']
                     date = asset['updated_at'].split('T')[0]
+                    #print('Repo: %s\tCount: %d\tDate: %s\tAsset: %s'%(
+                    #    full_name,
+                    #    asset['download_count'],
+                    #    date,
+                    #    asset['name'],
+                    #))
             else:
+                print ("...")
                 exit()
     except:
         pass
+    print('%d' % total_count)
 
-    print('%d' % total_count, flush=True)
-
-    # Write total_count to temporary file
-    with open(TEMP_FILE, "w") as tmp:
-        tmp.write(str(total_count))

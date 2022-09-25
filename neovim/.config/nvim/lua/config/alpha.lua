@@ -3,15 +3,30 @@ if not status_ok then
 	return
 end
 
+-- split function
+function split(inputstr, sep)
+        if sep == nil then
+                sep = "%s"
+        end
+        local t={}
+        for str in string.gmatch(inputstr, "([^"..sep.."]+)") do
+                table.insert(t, str)
+        end
+        return t
+end
+
 local dashboard = require("alpha.themes.dashboard")
-dashboard.section.header.val = {
-	[[                               __                ]],
-	[[  ___     ___    ___   __  __ /\_\    ___ ___    ]],
-	[[ / _ `\  / __`\ / __`\/\ \/\ \\/\ \  / __` __`\  ]],
-	[[/\ \/\ \/\  __//\ \_\ \ \ \_/ |\ \ \/\ \/\ \/\ \ ]],
-	[[\ \_\ \_\ \____\ \____/\ \___/  \ \_\ \_\ \_\ \_\]],
-	[[ \/_/\/_/\/____/\/___/  \/__/    \/_/\/_/\/_/\/_/]],
-}
+--dashboard.section.header.val = {
+--	[[                               __                ]],
+--	[[  ___     ___    ___   __  __ /\_\    ___ ___    ]],
+--	[[ / _ `\  / __`\ / __`\/\ \/\ \\/\ \  / __` __`\  ]],
+--	[[/\ \/\ \/\  __//\ \_\ \ \ \_/ |\ \ \/\ \/\ \/\ \ ]],
+--	[[\ \_\ \_\ \____\ \____/\ \___/  \ \_\ \_\ \_\ \_\]],
+--	[[ \/_/\/_/\/____/\/___/  \/__/    \/_/\/_/\/_/\/_/]],
+--}
+
+dashboard.section.header.val = vim.fn.executable("figletrand")==1 and split(vim.fn.system "figletrand neovim","\n") or "NEOVIM"
+
 dashboard.section.buttons.val = {
 	dashboard.button("f", " " .. " Find file", ":Telescope find_files <CR>"),
 	dashboard.button("e", " " .. " New file", ":ene <BAR> startinsert <CR>"),
