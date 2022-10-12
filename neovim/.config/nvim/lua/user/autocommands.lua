@@ -44,3 +44,14 @@ vim.api.nvim_create_autocmd({ "TextYankPost" }, {
     vim.highlight.on_yank { higroup = "Visual", timeout = 200 }
   end,
 })
+
+-- Competitive programming template for C++
+vim.api.nvim_create_autocmd({ "BufNewFile" }, {
+  pattern = { "*.cpp" },
+  callback =
+  function()
+    if vim.fn.filereadable(vim.fn.expand("~/t.cpp")) == 1 then
+      vim.cmd "0r ~/t.cpp"
+    end
+  end
+})

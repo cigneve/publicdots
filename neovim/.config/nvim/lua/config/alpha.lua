@@ -16,16 +16,16 @@ function split(inputstr, sep)
 end
 
 local dashboard = require("alpha.themes.dashboard")
---dashboard.section.header.val = {
---	[[                               __                ]],
---	[[  ___     ___    ___   __  __ /\_\    ___ ___    ]],
---	[[ / _ `\  / __`\ / __`\/\ \/\ \\/\ \  / __` __`\  ]],
---	[[/\ \/\ \/\  __//\ \_\ \ \ \_/ |\ \ \/\ \/\ \/\ \ ]],
---	[[\ \_\ \_\ \____\ \____/\ \___/  \ \_\ \_\ \_\ \_\]],
---	[[ \/_/\/_/\/____/\/___/  \/__/    \/_/\/_/\/_/\/_/]],
---}
+local default = {
+	[[                               __                ]],
+	[[  ___     ___    ___   __  __ /\_\    ___ ___    ]],
+	[[ / _ `\  / __`\ / __`\/\ \/\ \\/\ \  / __` __`\  ]],
+	[[/\ \/\ \/\  __//\ \_\ \ \ \_/ |\ \ \/\ \/\ \/\ \ ]],
+	[[\ \_\ \_\ \____\ \____/\ \___/  \ \_\ \_\ \_\ \_\]],
+	[[ \/_/\/_/\/____/\/___/  \/__/    \/_/\/_/\/_/\/_/]],
+}
 
-dashboard.section.header.val = vim.fn.executable("figletrand")==1 and split(vim.fn.system "figletrand neovim","\n") or "NEOVIM"
+dashboard.section.header.val = vim.fn.executable("figletrand")==1 and vim.fn.executable("figlet")==1 and split(vim.fn.system "figletrand neovim","\n") or "NEOVIM"
 
 dashboard.section.buttons.val = {
 	dashboard.button("f", " " .. " Find file", ":Telescope find_files <CR>"),

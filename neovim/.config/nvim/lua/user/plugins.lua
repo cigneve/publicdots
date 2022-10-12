@@ -44,7 +44,7 @@ return packer.startup(function(use)
 
 	use({ "wbthomason/packer.nvim" }) -- Have packer manage itself
 	use({ "nvim-lua/plenary.nvim" }) -- Useful lua functions used by lots of plugins
-	use({ "windwp/nvim-autopairs", config = [[require('config.autopairs')]] }) -- Autopairs, integrates with both cmp and treesitter
+	use({ "windwp/nvim-autopairs", config = [[require('config.autopairs')]],event="InsertEnter", after = "nvim-cmp" }) -- Autopairs, integrates with both cmp and treesitter
 	use({
 		"numToStr/Comment.nvim",
 		config = [[require('config.comment')]],
@@ -74,12 +74,12 @@ return packer.startup(function(use)
 		"hrsh7th/nvim-cmp",
 		requires = {
 			{ "hrsh7th/cmp-buffer", after = "nvim-cmp" },
-			"hrsh7th/cmp-nvim-lsp",
+			{"hrsh7th/cmp-nvim-lsp", after="nvim-cmp"},
 			{ "hrsh7th/cmp-nvim-lsp-signature-help", after = "nvim-cmp" },
 			{ "hrsh7th/cmp-path", after = "nvim-cmp" },
 			{ "hrsh7th/cmp-nvim-lua", after = "nvim-cmp" },
 			{ "saadparwaiz1/cmp_luasnip", after = "nvim-cmp" },
-			"lukas-reineke/cmp-under-comparator",
+			{"lukas-reineke/cmp-under-comparator",after="nvim-cmp"},
 			{ "hrsh7th/cmp-nvim-lsp-document-symbol", after = "nvim-cmp" },
 		},
 		config = [[require('config.cmp')]],
@@ -99,38 +99,38 @@ return packer.startup(function(use)
 	use({ "RRethy/vim-illuminate", config = [[require('config.illuminate')]] })
 
 	-- Telescope
-	-- Search
-	use({
-		{
-			"nvim-telescope/telescope.nvim",
-			requires = {
-				"nvim-lua/popup.nvim",
-				"nvim-lua/plenary.nvim",
-				"telescope-frecency.nvim",
-				"telescope-fzf-native.nvim",
-				"nvim-telescope/telescope-ui-select.nvim",
-			},
-			wants = {
-				"popup.nvim",
-				"plenary.nvim",
-				"telescope-frecency.nvim",
-				"telescope-fzf-native.nvim",
-			},
-			--setup = [[require('config.telescope_setup')]],
-			cmd = "Telescope",
-			config = [[require('config.telescope')]],
-		},
-		{
-			"nvim-telescope/telescope-frecency.nvim",
-			after = "telescope.nvim",
-			requires = "tami5/sqlite.lua",
-		},
-		{
-			"nvim-telescope/telescope-fzf-native.nvim",
-			run = "make",
-		},
-	})
-
+  use {
+    {
+      'nvim-telescope/telescope.nvim',
+      requires = {
+        'nvim-lua/popup.nvim',
+        'nvim-lua/plenary.nvim',
+        'telescope-frecency.nvim',
+        'telescope-fzf-native.nvim',
+        'nvim-telescope/telescope-ui-select.nvim',
+      },
+      wants = {
+        'popup.nvim',
+        'plenary.nvim',
+        'telescope-frecency.nvim',
+        'telescope-fzf-native.nvim',
+      },
+      module = 'telescope',
+      setup = [[require('config.telescopsetup')]],
+      config = [[require('config.telescop')]],
+    },
+    {
+      'nvim-telescope/telescope-frecency.nvim',
+      after = 'telescope.nvim',
+      requires = 'tami5/sqlite.lua',
+    },
+    {
+      'nvim-telescope/telescope-fzf-native.nvim',
+      run = 'make',
+    },
+    'crispgm/telescope-heading.nvim',
+    'nvim-telescope/telescope-file-browser.nvim',
+  }
 	-- Treesitter
 	use({
 		"nvim-treesitter/nvim-treesitter",
@@ -205,6 +205,7 @@ return packer.startup(function(use)
 				},
 			})
 		end,
+    ft = "norg",
 		requires = "nvim-lua/plenary.nvim",
 	})
 	-- Colorizer
